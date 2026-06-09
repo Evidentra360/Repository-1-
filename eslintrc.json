@@ -1,0 +1,14 @@
+# ── Build settings ────────────────────────────────────────────
+CI=false
+GENERATE_SOURCEMAP=false
+DISABLE_ESLINT_PLUGIN=true
+
+# ── Supabase (required for real auth + data) ─────────────────
+# Get these from: Supabase → Project Settings → API
+# Leave blank to run in demo mode only
+REACT_APP_SUPABASE_URL=
+REACT_APP_SUPABASE_ANON_KEY=
+
+# App URL (used for password reset redirect)
+# Set this to your production domain once live
+REACT_APP_URL=https://evidentra-deploy2.vercel.app

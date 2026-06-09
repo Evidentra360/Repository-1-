@@ -1,0 +1,39 @@
+// ================================================================
+// EVIDENTRA360 — SUPABASE CLIENT
+// ================================================================
+// Single shared instance used throughout the application.
+// Environment variables must be set in Vercel and in .env.local:
+//   REACT_APP_SUPABASE_URL=https://yourproject.supabase.co
+//   REACT_APP_SUPABASE_ANON_KEY=eyJ...
+// ================================================================
+
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl  = process.env.REACT_APP_SUPABASE_URL;
+const supabaseAnon = process.env.REACT_APP_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnon) {
+  console.warn(
+    '[Evidentra360] Supabase env vars not set. ' +
+    'Set REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_ANON_KEY. ' +
+    'App will run in demo mode only.'
+  );
+}
+
+// createClient is safe to call with undefined values —
+// it will simply fail at query time rather than at import time,
+// which preserves demo mode functionality.
+export const supabase = (supabaseUrl && supabaseAnon)
+  ? createClient(supabaseUrl, supabaseAnon, {
+      auth: {
+        persistSession:    true,       // keep session across refreshes
+        autoRefreshToken:  true,       // auto-renew JWTs
+        detectSessionInUrl: true,      // handle magic link / OAuth redirects
+      },
+    })
+  : null;
+
+// ── Helper: is Supabase available? ───────────────────────────
+// Use this before making any Supabase call.
+// Returns false in demo mode (no env vars set).
+export const hasSupabase = () => supabase !== null;
